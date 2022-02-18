@@ -1,0 +1,66 @@
+
+POST http://localhost:3000/todo/
+Content-Type: application/json
+
+{
+"task":"laver le chien"
+}
+
+###
+GET  http://localhost:3000/todo/
+###
+POST http://localhost:3000/todo/
+Content-Type: application/json
+
+{
+"task":"laver la voiture"
+}
+###
+POST  http://localhost:3000/todo/
+Content-Type: application/json
+
+{
+"task":"faire mes devoirs"
+}
+
+###
+
+PATCH  http://localhost:3000/todo/620d6b949ae05169cecbad77
+Content-Type: application/json
+
+{
+"task":"laver la moto"
+}
+
+###
+DELETE http://localhost:3000/todo/620e058387b65471d67fcdcd
+###
+POST http://localhost:3000/todo/
+Content-Type: application/json
+
+{
+"task":"sortir le chien"
+}
+###
+POST http://localhost:3000/todo/
+Content-Type: application/json
+
+{
+"task":"laver la maison"
+}
+###
+POST http://localhost:3000/todo/
+Content-Type: application/json
+
+{
+"task":"aller au marché"
+}
+###
+DELETE http://localhost:3000/todo/
+
+{
+    "id":[
+       "620e058387b65471d67fcdcd",
+        "620e1a8b165d6a6c0f962b5c"
+    ]
+}
