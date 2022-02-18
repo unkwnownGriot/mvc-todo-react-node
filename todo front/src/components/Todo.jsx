@@ -17,17 +17,9 @@ useEffect(()=>{
 }
   setPlayOnce(false)
   setLoading(false)
+  console.log(loading)
   filteredToDos()
 },[filter])
-
-
-
-
-
-
-
-
-
 
 
 
@@ -43,7 +35,7 @@ function task_submit(e){
 }
 
 function add_task(user_task){
-    setLoading(true)
+    
     if(user_task.trim().length && user_task){
         axios.post('http://localhost:8080/todo/', {
             task:user_task,
@@ -58,23 +50,22 @@ function add_task(user_task){
             console.log(error);
           });
         }
-      setLoading(false)
+     
 }
 
 function removeItems(id_todo){
-setLoading(true)
      axios.delete(`http://localhost:8080/todo/${id_todo}`).then((response)=>{
          axios.get('http://localhost:8080/todo/').
          then(res=> setTodos(res.data))
      }).catch(err=>console.log(err))
      
 
-     setLoading(false)
+  
 }
 
 function completeAll(e){
-    setLoading(true)
     var check = e.target.checked
+    console.log(check)
     axios.patch('http://localhost:8080/todo/',{
         completed:check
     }).then((response)=>{
@@ -84,13 +75,13 @@ function completeAll(e){
        
     }).catch(err=>console.log(err))
     
-    setLoading(false)
+
 }
 
 // fonction pour faire toggler les checkbox et afficher les tâches comme éffectuées
 
 function toggleTodo(id_todo,e){
-    setLoading(true)
+    
     axios.patch(`http://localhost:8080/todo/${id_todo}`,{
         completed:e.target.checked
     }).then((response)=>{
@@ -100,7 +91,7 @@ function toggleTodo(id_todo,e){
        
     }).catch(err=>console.log(err))
 
-    setLoading(false)
+
 }
 
 
@@ -110,6 +101,7 @@ function toggleEditing(id_todo){
     })
     setTodos(editingTab)
 }
+
 // function pour filtrer les todos
 
 function filteredToDos(){
@@ -124,8 +116,6 @@ function filteredToDos(){
 // function pour mettre à jour les todos
 
 function handleUpdate(todo_id,e){
-    setLoading(true)
-    if(e.key=='Enter'){
     axios.patch(`http://localhost:8080/todo/${todo_id}`,{
         task:update
     }).then((response)=>{
@@ -134,16 +124,16 @@ function handleUpdate(todo_id,e){
          then(res=> setTodos(res.data))
          
     }).catch(err=>console.log(err))
+
+console.log(loading)
 }
 
-setLoading(false)
-}
+
 
 
 // fonction pour supprimer les tâches restantes
 
 function deleteCompleted(){
-    setLoading(true)
     var deleted = todos.filter(item=>{
         return item.completed === true
     })
@@ -156,8 +146,7 @@ function deleteCompleted(){
          then(res=> setTodos(res.data))
          
     }).catch(err=>console.log(err))
-
-    setLoading(false)
+    
 }
 
 
@@ -185,7 +174,7 @@ if(loading){
                      <input type="checkbox"  id="toggle-all"
                     onChange={completeAll}
                     className='toggle-all' />
-                    <label htmlFor="toggle-all" ></label>
+                  { todos.length > 0 && <label htmlFor="toggle-all" ></label>}
                     <ul className='todo-list'>
                     {   
                     filteredToDos().map(todo=> <li key={todo._id} 
@@ -204,7 +193,7 @@ if(loading){
 
                             <input type="text" className='edit' defaultValue={update.length?update:todo.task+update} 
                              onBlur={()=> {toggleEditing(todo._id)}}
-                            onKeyPress={(e)=>handleUpdate(todo._id,e)}
+                            onBlur={()=>handleUpdate(todo._id)}
                             onChange={(e)=>{setUpdate(e.target.value)}}
                               />
                         </li>)
@@ -212,6 +201,7 @@ if(loading){
                    </ul>
                 </div>
                 { todos.length > 0 &&
+
             <footer className='footer'>
              <span className='todo-count'>
                <strong>{remain.length}</strong> tâches à faire
