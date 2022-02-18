@@ -116,6 +116,7 @@ function filteredToDos(){
 // function pour mettre à jour les todos
 
 function handleUpdate(todo_id,e){
+    if(e.key === 'Enter'){
     axios.patch(`http://localhost:8080/todo/${todo_id}`,{
         task:update
     }).then((response)=>{
@@ -124,7 +125,7 @@ function handleUpdate(todo_id,e){
          then(res=> setTodos(res.data))
          
     }).catch(err=>console.log(err))
-
+}
 console.log(loading)
 }
 
@@ -193,7 +194,7 @@ if(loading){
 
                             <input type="text" className='edit' defaultValue={update.length?update:todo.task+update} 
                              onBlur={()=> {toggleEditing(todo._id)}}
-                            onBlur={()=>handleUpdate(todo._id)}
+                            onKeyPress={(e)=>handleUpdate(todo._id,e)}
                             onChange={(e)=>{setUpdate(e.target.value)}}
                               />
                         </li>)
