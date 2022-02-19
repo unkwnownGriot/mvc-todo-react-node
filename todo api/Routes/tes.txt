@@ -1,0 +1,7 @@
+res.data
+const tab = todos.map(item=>{
+    var found = res.find(el=>el._id == item.id)
+    var foundIndex = res.findIndex(el=> el._id == item.id)
+})
+const anotherTab = todos.splice(1,1,tab)
+setTodos(anotherTab)
